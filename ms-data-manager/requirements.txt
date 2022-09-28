@@ -1,0 +1,6 @@
+fastapi==0.78
+uvicorn==0.17.6
+fastapi-utils==0.2.1
+pymongo==4.1.1
+requests==2.27.1
+pymongo[srv]
