@@ -1,0 +1,11 @@
+fastapi
+uvicorn==0.17.6
+fastapi-utils==0.2.1
+pymongo==4.1.1
+lxml
+argparse
+ncclient
+requests==2.27.1
+pymongo[srv]
+dnspython
+paramiko
