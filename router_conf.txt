@@ -1,0 +1,495 @@
+wj789456
+      		Spine 1
+
+crypto key generate rsa
+yes
+4096
+
+conf t
+ssh server netconf vrf default
+ssh server logging
+netconf agent tty
+netconf-yang agent
+ssh
+ssh server v2
+xml agent
+iteration off
+
+hostname Spine1
+int loo 0
+ipv4 add 10.10.10.10 255.255.255.255
+int g0/0/0/1
+description **WAN to Leaf 1**
+ipv4 add 197.10.10.2 255.255.255.252
+no shutdown
+int g0/0/0/2
+description **WAN to Leaf 2**
+ipv4 add 197.10.30.2 255.255.255.252
+no shutdown 
+int g0/0/0/3 
+description **WAN to Leaf 3** 
+ipv4 add 197.10.50.2 255.255.255.252 
+no shutdown 
+int g0/0/0/4 
+description **WAN to Leaf 4** 
+ipv4 add 197.10.70.2 255.255.255.252 
+no shutdown 
+int g0/0/0/5 
+description **WAN to Leaf 5** 
+ipv4 add 197.10.90.2 255.255.255.252 
+no shutdown 
+int g0/0/0/6 
+description **WAN to Leaf 6** 
+ipv4 add 197.10.110.2 255.255.255.252 
+no shutdown 
+commit 
+
+route-policy PASS 
+pass
+end-policy
+route-policy addpath
+  set path-selection all advertise
+end-policy
+
+router bgp 65000
+ bgp router-id 10.10.10.10
+ bgp log neighbor changes detail
+ address-family ipv4 unicast
+  additional-paths receive
+  additional-paths send
+  maximum-paths ebgp 16
+  additional-paths selection route-policy addpath
+  bgp bestpath origin-as allow invalid
+  network 10.10.10.10/32
+network 197.10.10.0/30
+network 197.10.30.0/30
+network 197.10.50.0/30
+network 197.10.70.0/30
+network 197.10.90.0/30
+network 197.10.110.0/30
+
+nei 197.10.10.1
+remote-as 65001
+ebgp-multihop
+ignore-connected-check
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.30.1
+remote-as 65001
+ebgp-multihop
+ignore-connected-check
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.50.1
+remote-as 65002
+ebgp-multihop
+ignore-connected-check
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.70.1
+remote-as 65002
+ebgp-multihop
+ignore-connected-check
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.90.1
+remote-as 65003
+ebgp-multihop
+ignore-connected-check
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.110.1
+remote-as 65003
+ebgp-multihop
+ignore-connected-check
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+commit 
+
+      		Spine 2
+			
+crypto key generate rsa
+yes
+4096
+
+conf t
+ssh server netconf vrf default
+ssh server logging
+netconf agent tty
+netconf-yang agent
+ssh
+ssh server v2
+xml agent
+iteration off
+
+
+hostname Spine2
+int loo 0
+ipv4 add 20.20.20.20 255.255.255.255
+int g0/0/0/1
+description **WAN to Leaf 1**
+ipv4 add 197.10.20.2 255.255.255.252
+no shutdown
+int g0/0/0/2
+description **WAN to Leaf 2**
+ipv4 add 197.10.40.2 255.255.255.252
+no shutdown 
+int g0/0/0/3 
+description **WAN to Leaf 3** 
+ipv4 add 197.10.60.2 255.255.255.252 
+no shutdown 
+int g0/0/0/4 
+description **WAN to Leaf 4** 
+ipv4 add 197.10.80.2 255.255.255.252 
+no shutdown 
+int g0/0/0/5 
+description **WAN to Leaf 5** 
+ipv4 add 197.10.100.2 255.255.255.252 
+no shutdown 
+int g0/0/0/6
+description **WAN to Leaf 6** 
+ipv4 add 197.10.120.2 255.255.255.252 
+no shutdown 
+commit 
+
+route-policy PASS 
+pass
+end-policy
+
+route-policy addpath
+  set path-selection all advertise
+end-policy
+
+router bgp 65000
+ bgp router-id 20.20.20.20
+ bgp log neighbor changes detail
+ address-family ipv4 unicast
+  additional-paths receive
+  additional-paths send
+  maximum-paths ebgp 16
+  additional-paths selection route-policy addpath
+  bgp bestpath origin-as allow invalid
+  network 20.20.20.20/32
+network 197.10.20.0/30
+network 197.10.40.0/30
+network 197.10.60.0/30
+network 197.10.80.0/30
+network 197.10.100.0/30
+network 197.10.120.0/30
+
+
+nei 197.10.20.1
+remote-as 65001
+ebgp-multihop
+ignore-connected-check
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.40.1
+remote-as 65001
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.60.1
+remote-as 65002
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.80.1
+remote-as 65002
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.100.1
+remote-as 65003
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.120.1
+remote-as 65003
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+commit
+
+
+		Leaf 1 
+crypto key generate rsa
+yes
+4096
+
+conf t
+ssh server netconf vrf default
+ssh server logging
+netconf agent tty
+netconf-yang agent
+ssh
+ssh server v2
+xml agent
+iteration off
+
+hostname Leaf1
+int loo 0 
+ipv4 add 1.1.1.1 255.255.255.255 
+int g0/0/0/0 
+description **LAN Monitoring Server** 
+ipv4 add 192.168.1.1 255.255.255.0 
+no shutdown
+int g0/0/0/1 
+description **WAN to Spine 1** 
+ipv4 add 197.10.10.1 255.255.255.252 
+no shutdown 
+int g0/0/0/2 
+description **WAN to Spine 2** 
+ipv4 add 197.10.20.1 255.255.255.252 
+no shutdown 
+commit 
+
+route-policy PASS 
+pass 
+end-policy 
+
+router bgp 65001
+bgp router-id 1.1.1.1
+address-family ipv4 unicast
+
+network 1.1.1.1 255.255.255.255
+
+nei 197.10.10.2
+remote-as 65000
+ebgp-multihop
+ignore-connected-check
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.20.2
+remote-as 65000
+ebgp-multihop
+ignore-connected-check
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+commit
+
+
+		Leaf 2
+conf t
+hostname Leaf2
+int loo 0 
+ipv4 add 2.2.2.2 255.255.255.255 
+
+int g0/0/0/1 
+description **WAN to Spine 1** 
+ipv4 add 197.10.30.1 255.255.255.252 
+no shutdown 
+int g0/0/0/2 
+description **WAN to Spine 2** 
+ipv4 add 197.10.40.1 255.255.255.252 
+no shutdown 
+commit 
+
+route-policy PASS 
+pass 
+end-policy 
+
+router bgp 65001
+bgp router-id 2.2.2.2
+address-family ipv4 unicast
+
+network 2.2.2.2 255.255.255.255
+
+nei 197.10.30.2
+remote-as 65000
+ebgp-multihop
+ignore-connected-check
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.40.2
+remote-as 65000
+ebgp-multihop
+ignore-connected-check
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+commit
+
+		Leaf 3
+conf t
+hostname Leaf3
+int loo 0 
+ipv4 add 3.3.3.3 255.255.255.255 
+
+int g0/0/0/1 
+description **WAN to Spine 1** 
+ipv4 add 197.10.50.1 255.255.255.252 
+no shutdown 
+int g0/0/0/2 
+description **WAN to Spine 2** 
+ipv4 add 197.10.60.1 255.255.255.252 
+no shutdown 
+commit 
+
+route-policy PASS 
+pass 
+end-policy 
+
+
+router bgp 65002
+bgp router-id 3.3.3.3
+bgp redis
+address-family ipv4 unicast  
+network 3.3.3.3/32
+
+
+nei 197.10.50.2
+remote-as 65000
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.60.2
+remote-as 65000
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+commit
+
+		Leaf 4
+conf t
+hostname Leaf4
+int loo 0 
+ipv4 add 4.4.4.4 255.255.255.255 
+
+int g0/0/0/1 
+description **WAN to Spine 1** 
+ipv4 add 197.10.70.1 255.255.255.252 
+no shutdown 
+int g0/0/0/2 
+description **WAN to Spine 2** 
+ipv4 add 197.10.80.1 255.255.255.252 
+no shutdown 
+commit 
+
+route-policy PASS 
+pass 
+end-policy 
+
+
+router bgp 65002
+bgp router-id 4.4.4.4
+bgp redis
+address-family ipv4 unicast  
+network 4.4.4.4/32
+
+nei 197.10.70.2
+remote-as 65000
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.80.2
+remote-as 65000
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+commit
+
+
+
+		Leaf 5
+conf t
+hostname Leaf5
+int loo 0
+ipv4 add 5.5.5.5 255.255.255.255
+
+int g0/0/0/1 
+description **WAN to Spine 1** 
+ipv4 add 197.10.90.1 255.255.255.252 
+no shutdown 
+int g0/0/0/2 
+description **WAN to Spine 2** 
+ipv4 add 197.10.100.1 255.255.255.252 
+no shutdown 
+commit 
+
+route-policy PASS 
+pass 
+end-policy 
+
+router bgp 65003
+bgp router-id 5.5.5.5
+bgp redis
+address-family ipv4 unicast  
+network 5.5.5.5/32
+
+nei 197.10.90.2
+remote-as 65000
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.100.2
+remote-as 65000
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+commit
+
+
+		Leaf 6
+conf t
+hostname Leaf6
+int loo 0
+ipv4 add 6.6.6.6 255.255.255.255
+
+int g0/0/0/1 
+description **WAN to Spine 1** 
+ipv4 add 197.10.110.1 255.255.255.252 
+no shutdown 
+int g0/0/0/2 
+description **WAN to Spine 2** 
+ipv4 add 197.10.120.1 255.255.255.252 
+no shutdown 
+commit 
+
+route-policy PASS 
+pass 
+end-policy 
+
+router bgp 65003
+bgp router-id 6.6.6.6
+bgp redis
+address-family ipv4 unicast  
+network 6.6.6.6/32
+
+nei 197.10.110.2
+remote-as 65000
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+
+nei 197.10.120.2
+remote-as 65000
+address-family ipv4 unicast 
+route-policy PASS in
+route-policy PASS out
+commit
